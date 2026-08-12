@@ -1,0 +1,26 @@
+#!/bin/bash
+
+INTERFACE="${1:-en0}"
+
+MAC=$(printf '02:%02x:%02x:%02x:%02x:%02x\n' \
+  $((RANDOM % 256)) \
+  $((RANDOM % 256)) \
+  $((RANDOM % 256)) \
+  $((RANDOM % 256)) \
+  $((RANDOM % 256)))
+
+networksetup -setairportpower "$INTERFACE" on >/dev/null 2>&1
+
+if sudo ifconfig "$INTERFACE" ether "$MAC" >/dev/null 2>&1; then
+    ACTUAL_MAC=$(ifconfig "$INTERFACE" | awk '/ether/{print $2}')
+
+    if [ "$ACTUAL_MAC" = "$MAC" ]; then
+        echo "Success: MAC changed to $MAC"
+    else
+        echo "Failed: MAC address did not change."
+        exit 1
+    fi
+else
+    echo "Failed: Could not change MAC address."
+    exit 1
+fi
