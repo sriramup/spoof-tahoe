@@ -85,7 +85,7 @@ You'll be prompted for your administrator password because changing the MAC addr
 On success:
 
 ```text
-Success: MAC changed to 02:bf:2b:dc:f4:2a
+Success: MAC changed to 02:xx:xx:xx:xx:xx
 ```
 
 ### 3. Reconnect to Wi-Fi
